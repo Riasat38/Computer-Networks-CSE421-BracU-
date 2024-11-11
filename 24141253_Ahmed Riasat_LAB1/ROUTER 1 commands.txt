@@ -1,0 +1,112 @@
+FOR THE FIRST ROUTER {R1}
+
+1. >enable
+2. #erase startup-config
+3. #reload
+
+ROUTER RESET COMPLETE.
+
+4. >enable   			//privilege mode
+5. #configure terminal
+6. #hostname R1   		//router rename
+7. #no ip domain-lookup
+8. #enable secret EnTry		//setting EXEC mode password 
+9. #banner motd o               //setting welcome text "Hello1"
+10. #line console 0
+11. #password CiScO1
+12. #login			//password required at login while entering console
+13. #exit
+14. #line vty 0 4
+15. #password CiScO1
+16. #login
+17. #exit
+
+CONFIGURE FastEthernet
+
+#interface fastethernet  0/0
+#ip address 192.168.1.1 255.255.255.0		//ip address for fast ethernet 0/0 port
+#no shutdown
+
+#interface serial 2/0
+#ip address 192.168.2.1 255.255.255.0		//setting ip address for serial 2/0 port
+#clock rate 64000
+#no shutdown
+#end   						//returning to privilege mode
+#copy running-config startup-config		//saving the configuration
+
+
+
+R1#show ip route
+Codes: C - connected, S - static, I - IGRP, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default, U - per-user static route, o - ODR
+       P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+C    192.168.1.0/24 is directly connected, FastEthernet0/0
+C    192.168.2.0/24 is directly connected, Serial2/0
+
+R1#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol 
+FastEthernet0/0        192.168.1.1     YES manual up                    up 
+FastEthernet1/0        unassigned      YES NVRAM  administratively down down 
+Serial2/0              192.168.2.1     YES manual up                    up 
+Serial3/0              unassigned      YES NVRAM  administratively down down 
+FastEthernet4/0        unassigned      YES NVRAM  administratively down down 
+FastEthernet5/0        unassigned      YES NVRAM  administratively down down
+
+R1#show running-config
+Building configuration...
+
+Current configuration : 860 bytes
+!
+version 12.2
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname R1
+!
+!
+!
+enable secret 5 $1$mERr$Awn/cksxmQQHIsl2Nkd3a0
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+ --More-- 
+
+
+
+
+
+
+PC0 ip -> 192.168.1.10
+PC1 ip -> 192.168.3.10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
