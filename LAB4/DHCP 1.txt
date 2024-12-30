@@ -1,0 +1,60 @@
+R2
+ 
+>enable
+#configure terminal
+#ip dhcp excluded-address 192.168.10.1 192.168.10.10
+#ip dhcp excluded-address 192.168.30.1 192.168.30.10
+#ip dhcp pool R1-LAN
+#network 192.168.10.0 255.255.255.0
+#dns-server 192.168.20.254
+#default-router 192.168.10.1 
+
+#exit
+
+#ip dhcp pool R3-LAN
+#network 192.168.30.0 255.255.255.0
+#dns-server 192.168.20.254
+#default-router 192.168.30.1 
+
+
+R1
+
+>enable
+#configure terminal
+#int g0/0
+#ip helper-address 10.1.1.2
+
+R3
+
+>enable
+#configure terminal
+#int g0/0
+#ip helper-address 10.2.2.2
+
+R2
+#show ip dhcp binding
+IP address       Client-ID/              Lease expiration        Type
+                 Hardware address
+192.168.10.11    0002.4AA5.1470           --                     Automatic
+192.168.30.11    0004.9A97.2535           --                     Automatic
+
+#exit
+#int g0/1
+#ip address dhcp
+#no shut
+
+PC1
+
+>ping 192.168.30.11
+
+Pinging 192.168.30.11 with 32 bytes of data:
+
+Request timed out.
+Reply from 192.168.30.11: bytes=32 time=18ms TTL=125
+Reply from 192.168.30.11: bytes=32 time=20ms TTL=125
+Reply from 192.168.30.11: bytes=32 time=19ms TTL=125
+
+Ping statistics for 192.168.30.11:
+    Packets: Sent = 4, Received = 3, Lost = 1 (25% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 18ms, Maximum = 20ms, Average = 19ms
